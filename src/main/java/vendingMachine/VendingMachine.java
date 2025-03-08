@@ -10,7 +10,7 @@ public class VendingMachine {
     private final MoneyCollection moneyCollection;
     private final Inventory inventory;
 
-    VendingMachine(Inventory inventory, MoneyCollection moneyCollection) {
+    public VendingMachine(Inventory inventory, MoneyCollection moneyCollection) {
         this.inventory = inventory;
         this.moneyCollection = moneyCollection;
         System.out.println("✨いらっしゃいませ✨");
@@ -65,8 +65,12 @@ public class VendingMachine {
      * 返金処理
      */
     public void refund() {
-        System.out.println("返金額: " + moneyCollection.getTotalAmount() + "円");
+        if (moneyCollection.getTotalAmount() <= 0) {
+            System.out.println("✨ありがとうございました✨");
+            return;
+        }
 
+        System.out.println("返金額: " + moneyCollection.getTotalAmount() + "円");
         List<Money> change = moneyCollection.change();
         for (Money money : change) {
             if (money.equals(new Money(1000))) System.out.println(money.getAmount() + "円札 ｳｨｰﾝ");

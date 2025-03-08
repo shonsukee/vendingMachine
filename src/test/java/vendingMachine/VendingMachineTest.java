@@ -67,4 +67,13 @@ public class VendingMachineTest {
 
         vm.refund();
     }
+
+    @Test
+    public void testRefundNoMoney() {
+        Inventory inventory = new Inventory();
+        MoneyCollection moneyCollection = new MoneyCollection();
+        VendingMachine vm = new VendingMachine(inventory, moneyCollection);
+
+        vm.refund();
+    }
 }

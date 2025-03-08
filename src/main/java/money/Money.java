@@ -7,7 +7,7 @@ public class Money {
         if(amount == 10 || amount == 50 || amount == 100 || amount == 500 || amount == 1000){
             this.amount = amount;
         } else {
-            throw new IllegalArgumentException("有効な貨幣を入力してください");
+            throw new IllegalArgumentException("有効な貨幣を入力してください。");
         }
     }
 

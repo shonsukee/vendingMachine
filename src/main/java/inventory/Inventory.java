@@ -76,4 +76,23 @@ public class Inventory {
         }
         return total;
     }
+
+    public void displayProducts() {
+        int idx = 1;
+        for (Map.Entry<Drink, Integer> entry : inventory.entrySet()) {
+            if(isDeadStock(entry.getKey())) continue;
+            System.out.println("【" + idx + "】" + entry.getKey().name() + ": ¥" + entry.getKey().price());
+            idx++;
+        }
+    }
+
+    public Drink searchDrink(int drinkNumber) {
+        int idx = 1;
+        for (Map.Entry<Drink, Integer> entry : inventory.entrySet()) {
+            if (isDeadStock(entry.getKey())) continue;
+            if (idx == drinkNumber) return entry.getKey();
+            idx++;
+        }
+        return null;
+    }
 }

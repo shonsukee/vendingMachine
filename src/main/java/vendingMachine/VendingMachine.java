@@ -34,15 +34,18 @@ public class VendingMachine {
      */
     public boolean purchase(Drink drink) {
         if (inventory.isDeadStock(drink)) return false;
-        if (drink.price() > moneyCollection.getTotalAmount()) return false;
+        if (drink.price() > moneyCollection.getTotalAmount()){
+            System.out.println("お金が不足しています。");
+            return false;
+        }
 
         if (!moneyCollection.calculateChange(drink)) {
-            System.out.println("お金が不足しています");
+            System.out.println("お釣りが生成できません。");
             return false;
         }
 
         if (!inventory.reduceInventory(drink)) {
-            System.out.println("在庫がありません");
+            System.out.println("在庫がありません。");
             return false;
         }
 

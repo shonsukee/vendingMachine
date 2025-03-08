@@ -17,7 +17,7 @@ public class ChangeTest {
         moneyCollection.addMoney(one_hundred);
 
         List<Money> change = moneyCollection.change();
-        assertThat(change.stream().mapToInt(val -> val.amount).sum(), is(130));
+        assertThat(change.stream().mapToInt(Money::getAmount).sum(), is(130));
         assertThat(moneyCollection.getTotalAmount(), is(0));
     }
 }

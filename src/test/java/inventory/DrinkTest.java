@@ -9,8 +9,8 @@ public class DrinkTest {
     @Test
     public void testInvalidName() {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new Drink(null, -100);
-            new Drink("", -100);
+            new Drink(null, 100);
+            new Drink("", 100);
         });
         assertThat(exception.getMessage(), is("不正な商品名です"));
     }
@@ -20,6 +20,7 @@ public class DrinkTest {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             new Drink("soda", -10);
             new Drink("orange", 0);
+            new Drink("orange", 155);
         });
         assertThat(exception.getMessage(), is("不正な価格です"));
     }
@@ -27,7 +28,7 @@ public class DrinkTest {
     @Test
     public void testValidDrink() {
         Drink drink = new Drink("apple", 120);
-        assertThat(drink.getName(), is("apple"));
-        assertThat(drink.getPrice(), is(120));
+        assertThat(drink.name(), is("apple"));
+        assertThat(drink.price(), is(120));
     }
 }

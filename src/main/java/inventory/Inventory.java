@@ -17,18 +17,30 @@ public class Inventory {
      * @param quantity 追加する数量
      * @return 追加が成功した場合は {@code true}、在庫制限を超える場合は {@code false}
      */
-    public boolean addDrink(Drink drink, int quantity) {
+    public boolean addInventory(Drink drink, int quantity) {
         if (getTotalQuantity() + quantity > MAX_STOCK) return false;
         if (quantity <= 0) return false;
 
-        // 登録済みのDrink
         if (inventory.containsKey(drink)) {
             inventory.put(drink, getQuantity(drink) + quantity);
-        }
-        // 未登録のDrink
-        else {
+        } else {
             inventory.put(drink, quantity);
         }
+        return true;
+    }
+
+    /**
+     * 指定された飲料の在庫を1つ減らす。
+     *
+     * <p>このメソッドは、指定された {@code Drink} の在庫を1つ減らし、
+     * 在庫がない場合は {@code false} を返して処理を行わない。</p>
+     *
+     * @param drink 在庫を減らす対象の {@code Drink} オブジェクト
+     * @return 在庫が1つ以上あり減らせた場合は {@code true}、在庫がない場合は {@code false}
+     */
+    public boolean reduceInventory(Drink drink) {
+        if (getQuantity(drink) <= 0) return false;
+        inventory.put(drink, getQuantity(drink) - 1);
         return true;
     }
 
@@ -36,10 +48,10 @@ public class Inventory {
      * 指定した飲料が在庫にあるかを判定する。
      *
      * @param drink 在庫を確認する {@code Drink} オブジェクト
-     * @return 在庫が1以上ある場合は {@code true}、それ以外は {@code false}
+     * @return 在庫がない場合は {@code true}、在庫がある場合は {@code false}
      */
-    public boolean hasStock(Drink drink) {
-        return getQuantity(drink) > 0;
+    public boolean isDeadStock(Drink drink) {
+        return getQuantity(drink) <= 0;
     }
 
     /**

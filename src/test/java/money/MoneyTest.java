@@ -30,11 +30,11 @@ public class MoneyTest {
         Money five_hundred = new Money(500);
         Money one_thousand = new Money(1000);
 
-        assertThat(ten.amount, is(10));
-        assertThat(fifty.amount, is(50));
-        assertThat(one_hundred.amount, is(100));
-        assertThat(five_hundred.amount, is(500));
-        assertThat(one_thousand.amount, is(1000));
+        assertThat(ten.getAmount(), is(10));
+        assertThat(fifty.getAmount(), is(50));
+        assertThat(one_hundred.getAmount(), is(100));
+        assertThat(five_hundred.getAmount(), is(500));
+        assertThat(one_thousand.getAmount(), is(1000));
     }
 
     @Test

@@ -14,7 +14,7 @@ public class VendingMachine {
         this.inventory = inventory;
         this.moneyCollection = moneyCollection;
         System.out.println("✨いらっしゃいませ✨");
-    };
+    }
 
     /**
      * 指定された飲料を購入する処理を行う。

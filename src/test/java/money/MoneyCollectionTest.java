@@ -3,8 +3,6 @@ package money;
 import inventory.Drink;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.junit.jupiter.api.Assertions.*;

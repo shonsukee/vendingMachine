@@ -21,11 +21,8 @@ public class MoneyCollection {
      * @throws IllegalArgumentException 貨幣の枚数が最大枚数を超えた場合
      */
     public void addMoney(Money money) {
-        if (moneyList.size() >= MAX_CAPACITY) {
-            throw new IllegalArgumentException("貨幣の最大枚数は20枚です。");
-        } else {
-            moneyList.add(money);
-        }
+        if (moneyList.size() >= MAX_CAPACITY) throw new IllegalArgumentException("貨幣の最大枚数は20枚です。");
+        moneyList.add(money);
     }
 
     /**

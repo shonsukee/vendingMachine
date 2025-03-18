@@ -24,9 +24,10 @@ public class Inventory {
 
         if (inventory.containsKey(drink)) {
             inventory.put(drink, getQuantity(drink) + quantity);
-        } else {
-            inventory.put(drink, quantity);
+            return true;
         }
+
+        inventory.put(drink, quantity);
         return true;
     }
 

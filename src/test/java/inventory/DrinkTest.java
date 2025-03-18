@@ -12,7 +12,7 @@ public class DrinkTest {
             new Drink(null, 100);
             new Drink("", 100);
         });
-        assertThat(exception.getMessage(), is("不正な商品名です"));
+        assertThat(exception.getMessage(), is("不正な商品名です。"));
     }
 
     @Test
@@ -22,7 +22,7 @@ public class DrinkTest {
             new Drink("orange", 0);
             new Drink("orange", 155);
         });
-        assertThat(exception.getMessage(), is("不正な価格です"));
+        assertThat(exception.getMessage(), is("不正な価格です。"));
     }
 
     @Test

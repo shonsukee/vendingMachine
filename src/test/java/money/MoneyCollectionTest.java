@@ -41,7 +41,7 @@ public class MoneyCollectionTest {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             moneyCollection.addMoney(ten);
         });
-        assertThat(exception.getMessage(), is("貨幣の最大枚数は20枚です"));
+        assertThat(exception.getMessage(), is("貨幣の最大枚数は20枚です。"));
     }
 
     @Test

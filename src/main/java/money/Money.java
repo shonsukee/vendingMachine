@@ -1,10 +1,9 @@
 package money;
 
 // 個々の貨幣
-public class Money {
-    private final int amount;
+public record Money(int amount) {
     public Money(int amount) {
-        if(amount == 10 || amount == 50 || amount == 100 || amount == 500 || amount == 1000){
+        if (amount == 10 || amount == 50 || amount == 100 || amount == 500 || amount == 1000) {
             this.amount = amount;
         } else {
             throw new IllegalArgumentException("有効な貨幣を入力してください。");
@@ -13,9 +12,11 @@ public class Money {
 
     /**
      * 金額を取得する
+     *
      * @return この貨幣の金額
      */
-    public int getAmount() {
+    @Override
+    public int amount() {
         return amount;
     }
 
@@ -28,7 +29,7 @@ public class Money {
      * @param object 比較対象のオブジェクト
      * @return 指定されたオブジェクトがこのオブジェクトと等しい場合は {@code true}、それ以外は {@code false}
      */
-    public boolean equals(Object object){
+    public boolean equals(Object object) {
         if (this == object) return true;
         if (object == null || getClass() != object.getClass()) return false;
         Money money = (Money) object;

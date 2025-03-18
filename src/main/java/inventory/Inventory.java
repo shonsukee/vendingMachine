@@ -2,6 +2,7 @@ package inventory;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 // 在庫を管理
 public class Inventory {
@@ -86,7 +87,12 @@ public class Inventory {
         }
     }
 
-    public Drink searchDrink(int drinkNumber) {
+    public Optional<Drink> searchDrink(int drinkNumber) {
+        Drink foundDrink = findDrinkByNumber(drinkNumber);
+        return Optional.ofNullable(foundDrink);
+    }
+
+    private Drink findDrinkByNumber(int drinkNumber) {
         int idx = 1;
         for (Map.Entry<Drink, Integer> entry : inventory.entrySet()) {
             if (isDeadStock(entry.getKey())) continue;

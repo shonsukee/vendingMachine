@@ -45,16 +45,34 @@ public class MoneyCollection {
         moneyList.clear();
 
         // お釣りの計算
-        int[] availableMoney = {1000, 500, 100, 50, 10};
-        for (int money : availableMoney) {
-            int count = remainingAmount / money;
-            remainingAmount -= count * money;
-            for (int i = 0; i < count; i++) {
-                moneyList.add(new Money(money));
-            }
+        Money[] availableMoney = {
+            new Money(1000),
+            new Money(500),
+            new Money(100),
+            new Money(50),
+            new Money(10)
+        };
+        for (Money money : availableMoney) {
+            int amountRatio = remainingAmount / money.amount();
+            remainingAmount -= amountRatio * money.amount();
+            addMoneyList(money, amountRatio);
         }
 
         return remainingAmount == 0;
+    }
+
+    /**
+     * 貨幣をお金リストに追加する。
+     *
+     * <p>このメソッドは、`moneyList`へmoneyをamount個分追加します。</p>
+     *
+     * @param money `moneyList`へ追加する {@code Money} オブジェクト
+     * @param amountRatio {@code Money} オブジェクトを`moneyList`へ追加する数
+     */
+    private void addMoneyList(Money money, int amountRatio) {
+        for (int i = 0; i < amountRatio; i++) {
+            moneyList.add(money);
+        }
     }
 
     /**
@@ -66,7 +84,7 @@ public class MoneyCollection {
      * @return 現在の合計金額（整数値）
      */
     public int getTotalAmount() {
-        return moneyList.stream().mapToInt(Money::getAmount).sum();
+        return moneyList.stream().mapToInt(Money::amount).sum();
     }
 
     /**

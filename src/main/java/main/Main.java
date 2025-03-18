@@ -26,74 +26,77 @@ public class Main {
         System.out.println("【商品一覧】");
         inv.displayProducts();
 
+        paymentProcess(scanner, mc, vm);
+        merchandisePurchaseProcess(scanner, vm, inv);
+    }
+
+    private static boolean isValidInput(String input, Scanner scanner, VendingMachine vm){
+        System.out.print("> ");
+        if (input.equalsIgnoreCase("exit")) exit(scanner, vm);
+
+        return !input.equalsIgnoreCase("q");
+    }
+
+    private static void exit(Scanner scanner, VendingMachine vm){
+        scanner.close();
+        vm.refund();
+        System.exit(0);
+    }
+
+    private static boolean isCorrectMoney(MoneyCollection mc, String input) {
+        try {
+            int amount = Integer.parseInt(input);
+            Money money = new Money(amount);
+            mc.addMoney(money);
+            System.out.println(amount + "円を入金しました。");
+            System.out.println("総額 " + mc.getTotalAmount() + " 円です。");
+            return true;
+        } catch (NumberFormatException e) {
+            System.out.println("無効な入力です。数字を入力してください。");
+            return false;
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage() + "入金できませんでした。");
+            return false;
+        }
+    }
+
+    private static void paymentProcess(Scanner scanner, MoneyCollection mc, VendingMachine vm) {
         while (true) {
-            // 入金処理
             System.out.println("お金を入れてください。");
-            while (true) {
-                System.out.print("> ");
-                String input = scanner.nextLine().trim();
+            String input = scanner.nextLine().trim();
+            if (isValidInput(input, scanner, vm)) break;
+            if (isCorrectMoney(mc, input)) break;
+        }
+    }
 
-                if (input.equalsIgnoreCase("exit")) {
-                    vm.refund();
-                    scanner.close();
-                    System.exit(0);
-                }
+    private static boolean isMerchandisePurchaseProcess(String input, Scanner scanner, VendingMachine vm, Inventory inv) {
+        try {
+            int drinkNumber = Integer.parseInt(input);
+            Drink drink = inv.searchDrink(drinkNumber);
 
-                if (input.equalsIgnoreCase("q")) {
-                    break;
-                }
+            if (vm.purchase(drink)) exit(scanner, vm);
+            else System.out.println("'q' の後に、お金を追加してください。");
 
-                try {
-                    int amount = Integer.parseInt(input);
-                    Money money = new Money(amount);
-                    mc.addMoney(money);
-                    System.out.println(amount + "円を入金しました。");
-                    System.out.println("総額 " + mc.getTotalAmount() + " 円です。");
-                } catch (NumberFormatException e) {
-                    System.out.println("無効な入力です。数字を入力してください。");
-                } catch (IllegalArgumentException e) {
-                    System.out.println(e.getMessage() + "入金できませんでした。");
-                }
-            }
+            return true;
+        } catch (NullPointerException e) {
+            System.out.println("指定された番号のドリンクが見つかりません。");
+            return false;
+        } catch (NumberFormatException e) {
+            System.out.println("無効な入力です。数字を入力してください。");
+            return false;
+        } catch (IllegalArgumentException e) {
+            System.out.println("無効な入力です。正しい商品番号を入力してください。");
+            return false;
+        }
+    }
 
-            // 商品購入処理
+    private static void merchandisePurchaseProcess(Scanner scanner, VendingMachine vm, Inventory inv) {
+        while (true) {
             System.out.println("商品番号を選択してください。");
-            while (true) {
-                System.out.print("> ");
-                String input = scanner.nextLine().trim();
+            String input = scanner.nextLine().trim();
 
-                if (input.equalsIgnoreCase("exit")) {
-                    vm.refund();
-                    scanner.close();
-                    System.exit(0);
-                }
-
-                if (input.equalsIgnoreCase("q")) {
-                    break;
-                }
-
-                try {
-                    int drinkNumber = Integer.parseInt(input);
-                    Drink drink = inv.searchDrink(drinkNumber);
-                    if (drink == null) {
-                        System.out.println("指定された番号のドリンクが見つかりません。");
-                        continue;
-                    }
-                    boolean isPurchase = vm.purchase(drink);
-
-                    if (isPurchase) {
-                        vm.refund();
-                        scanner.close();
-                        System.exit(0);
-                    } else {
-                        System.out.println("'q' の後に、お金を追加してください。");
-                    }
-                } catch (NumberFormatException e) {
-                    System.out.println("無効な入力です。数字を入力してください。");
-                } catch (IllegalArgumentException e) {
-                    System.out.println("無効な入力です。正しい商品番号を入力してください。");
-                }
-            }
+            if (isValidInput(input, scanner, vm)) break;
+            if (isMerchandisePurchaseProcess(input, scanner, vm, inv)) break;
         }
     }
 }

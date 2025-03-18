@@ -78,6 +78,9 @@ public class Inventory {
         return total;
     }
 
+    /**
+     * 商品一覧を表示する。
+     */
     public void displayProducts() {
         int idx = 1;
         for (Map.Entry<Drink, Integer> entry : inventory.entrySet()) {
@@ -87,11 +90,23 @@ public class Inventory {
         }
     }
 
+    /**
+     * 商品番号を指定してドリンクを検索する。
+     *
+     * @param drinkNumber 検索する商品の番号。
+     * @return 該当する Drink の Optional。
+     */
     public Optional<Drink> searchDrink(int drinkNumber) {
         Drink foundDrink = findDrinkByNumber(drinkNumber);
         return Optional.ofNullable(foundDrink);
     }
 
+    /**
+     * 指定された番号のドリンクを見つける。
+     *
+     * @param drinkNumber 検索する商品の番号。
+     * @return 該当する Drink（見つからなければ null）。
+     */
     private Drink findDrinkByNumber(int drinkNumber) {
         int idx = 1;
         for (Map.Entry<Drink, Integer> entry : inventory.entrySet()) {

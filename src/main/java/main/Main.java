@@ -6,6 +6,7 @@ import money.Money;
 import money.MoneyCollection;
 import vendingMachine.VendingMachine;
 
+import java.util.Optional;
 import java.util.Scanner;
 
 public class Main {
@@ -30,6 +31,14 @@ public class Main {
         merchandisePurchaseProcess(scanner, vm, inv);
     }
 
+    /**
+     * 入力が有効かを判定する。
+     * 
+     * @param input ユーザーの入力。
+     * @param scanner Scanner オブジェクト。
+     * @param vm 自動販売機のインスタンス。
+     * @return 有効な入力なら true、無効なら false。
+     */
     private static boolean isValidInput(String input, Scanner scanner, VendingMachine vm){
         System.out.print("> ");
         if (input.equalsIgnoreCase("exit")) exit(scanner, vm);
@@ -37,12 +46,25 @@ public class Main {
         return !input.equalsIgnoreCase("q");
     }
 
+    /**
+     * アプリケーションを終了する。
+     *
+     * @param scanner Scanner オブジェクト。
+     * @param vm 自動販売機のインスタンス。
+     */
     private static void exit(Scanner scanner, VendingMachine vm){
         scanner.close();
         vm.refund();
         System.exit(0);
     }
 
+    /**
+     * 入金処理を行う。
+     *
+     * @param mc お金の管理オブジェクト。
+     * @param input ユーザーの入力。
+     * @return 入金が成功した場合は true、失敗した場合は false。
+     */
     private static boolean isCorrectMoney(MoneyCollection mc, String input) {
         try {
             int amount = Integer.parseInt(input);
@@ -60,6 +82,13 @@ public class Main {
         }
     }
 
+    /**
+     * ユーザーからの入金を処理する。
+     *
+     * @param scanner Scanner オブジェクト。
+     * @param mc お金の管理オブジェクト。
+     * @param vm 自動販売機のインスタンス。
+     */
     private static void paymentProcess(Scanner scanner, MoneyCollection mc, VendingMachine vm) {
         while (true) {
             System.out.println("お金を入れてください。");
@@ -69,18 +98,25 @@ public class Main {
         }
     }
 
+    /**
+     * 商品購入処理を行う。
+     *
+     * @param input ユーザーの入力。
+     * @param scanner Scanner オブジェクト。
+     * @param vm 自動販売機のインスタンス。
+     * @param inv 在庫管理オブジェクト。
+     * @return 購入成功なら true、失敗なら false。
+     */
     private static boolean isMerchandisePurchaseProcess(String input, Scanner scanner, VendingMachine vm, Inventory inv) {
         try {
             int drinkNumber = Integer.parseInt(input);
-            Drink drink = inv.searchDrink(drinkNumber);
+            Optional<Drink> optionalDrink = inv.searchDrink(drinkNumber);
+            Drink drink = optionalDrink.orElseThrow(() -> new IllegalArgumentException("指定された番号のドリンクが見つかりません。"));
 
             if (vm.purchase(drink)) exit(scanner, vm);
             else System.out.println("'q' の後に、お金を追加してください。");
 
             return true;
-        } catch (NullPointerException e) {
-            System.out.println("指定された番号のドリンクが見つかりません。");
-            return false;
         } catch (NumberFormatException e) {
             System.out.println("無効な入力です。数字を入力してください。");
             return false;
@@ -90,6 +126,13 @@ public class Main {
         }
     }
 
+    /**
+     * 商品購入プロセスを処理する。
+     *
+     * @param scanner Scanner オブジェクト。
+     * @param vm 自動販売機のインスタンス。
+     * @param inv 在庫管理オブジェクト。
+     */
     private static void merchandisePurchaseProcess(Scanner scanner, VendingMachine vm, Inventory inv) {
         while (true) {
             System.out.println("商品番号を選択してください。");

@@ -11,7 +11,7 @@ public record Money(int amount) {
     }
 
     /**
-     * 金額を取得する
+     * 金額を取得する。
      *
      * @return この貨幣の金額
      */

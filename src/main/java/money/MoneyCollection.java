@@ -1,6 +1,7 @@
 package money;
 
 import inventory.Drink;
+import static money.Currency.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +38,7 @@ public class MoneyCollection {
      * @return 購入可能でお釣りを計算できた場合は {@code true}、残高不足の場合は {@code false}
      */
     public boolean calculateChange(Drink drink) {
-        int totalAmount = getTotalAmount();
+        int totalAmount = calTotalAmount();
         int remainingAmount = totalAmount - drink.price();
 
         if (remainingAmount < 0) return false;
@@ -46,15 +47,15 @@ public class MoneyCollection {
 
         // お釣りの計算
         Money[] availableMoney = {
-            new Money(1000),
-            new Money(500),
-            new Money(100),
-            new Money(50),
-            new Money(10)
+            new Money(ONE_THOUSAND),
+            new Money(FIVE_HUNDRED),
+            new Money(ONE_HUNDRED),
+            new Money(FIFTY),
+            new Money(TEN)
         };
         for (Money money : availableMoney) {
-            int amountRatio = remainingAmount / money.amount();
-            remainingAmount -= amountRatio * money.amount();
+            int amountRatio = remainingAmount / money.getAmount();
+            remainingAmount -= amountRatio * money.getAmount();
             addMoneyList(money, amountRatio);
         }
 
@@ -76,15 +77,15 @@ public class MoneyCollection {
     }
 
     /**
-     * 現在コレクションに含まれているすべての貨幣の合計金額を取得する。
+     * 現在コレクションに含まれているすべての貨幣の合計金額を計算する。
      *
      * <p>このメソッドは、コレクション内の {@code Money} オブジェクトの
      * 金額を合計して返す。</p>
      *
      * @return 現在の合計金額（整数値）
      */
-    public int getTotalAmount() {
-        return moneyList.stream().mapToInt(Money::amount).sum();
+    public int calTotalAmount() {
+        return moneyList.stream().mapToInt(Money::getAmount).sum();
     }
 
     /**

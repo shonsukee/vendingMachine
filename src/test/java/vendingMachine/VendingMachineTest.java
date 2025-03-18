@@ -5,6 +5,7 @@ import inventory.Inventory;
 import money.Money;
 import money.MoneyCollection;
 import org.junit.jupiter.api.Test;
+import static money.Currency.*;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.MatcherAssert.*;
 
@@ -20,8 +21,8 @@ public class VendingMachineTest {
         inventory.addInventory(apple_juice, 10);
         inventory.addInventory(orange_juice, 20);
 
-        Money one_hundred = new Money(100);
-        Money ten = new Money(10);
+        Money one_hundred = new Money(ONE_HUNDRED);
+        Money ten = new Money(TEN);
         moneyCollection.addMoney(one_hundred);
         moneyCollection.addMoney(ten);
         moneyCollection.addMoney(ten);
@@ -34,11 +35,11 @@ public class VendingMachineTest {
         MoneyCollection moneyCollection = new MoneyCollection();
         VendingMachine vm = new VendingMachine(inventory, moneyCollection);
 
-        Money ten = new Money(10);
-        Money fifty = new Money(50);
-        Money one_hundred = new Money(100);
-        Money five_hundred = new Money(500);
-        Money one_thousand = new Money(1000);
+        Money ten = new Money(TEN);
+        Money fifty = new Money(FIFTY);
+        Money one_hundred = new Money(ONE_HUNDRED);
+        Money five_hundred = new Money(FIVE_HUNDRED);
+        Money one_thousand = new Money(ONE_THOUSAND);
 
         vm.insertMoney(ten);
         vm.insertMoney(fifty);
@@ -53,11 +54,11 @@ public class VendingMachineTest {
         MoneyCollection moneyCollection = new MoneyCollection();
         VendingMachine vm = new VendingMachine(inventory, moneyCollection);
 
-        Money ten = new Money(10);
-        Money fifty = new Money(50);
-        Money one_hundred = new Money(100);
-        Money five_hundred = new Money(500);
-        Money one_thousand = new Money(1000);
+        Money ten = new Money(TEN);
+        Money fifty = new Money(FIFTY);
+        Money one_hundred = new Money(ONE_HUNDRED);
+        Money five_hundred = new Money(FIVE_HUNDRED);
+        Money one_thousand = new Money(ONE_THOUSAND);
 
         vm.insertMoney(ten);
         vm.insertMoney(fifty);

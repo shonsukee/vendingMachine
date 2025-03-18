@@ -3,7 +3,7 @@ package vendingMachine;
 import inventory.*;
 import money.Money;
 import money.MoneyCollection;
-
+import static money.Currency.*;
 import java.util.List;
 
 public class VendingMachine {
@@ -34,7 +34,7 @@ public class VendingMachine {
      */
     public boolean purchase(Drink drink) {
         if (inventory.isDeadStock(drink)) return false;
-        if (drink.price() > moneyCollection.getTotalAmount()){
+        if (drink.price() > moneyCollection.calTotalAmount()){
             System.out.println("お金が不足しています。");
             return false;
         }
@@ -60,7 +60,7 @@ public class VendingMachine {
      */
     public void insertMoney(Money money) {
         moneyCollection.addMoney(money);
-        if (money.equals(new Money(1000))) System.out.println(money.amount() + "円札を投入しました ｳｨｰﾝ");
+        if (money.equals(new Money(ONE_THOUSAND))) System.out.println(money.amount() + "円札を投入しました ｳｨｰﾝ");
         else System.out.println(money.amount() + "円玉を投入しました ﾁｬﾘﾝ");
     }
 
@@ -68,15 +68,15 @@ public class VendingMachine {
      * 返金処理
      */
     public void refund() {
-        if (moneyCollection.getTotalAmount() <= 0) {
+        if (moneyCollection.calTotalAmount() <= 0) {
             System.out.println("✨ありがとうございました✨");
             return;
         }
 
-        System.out.println("返金額: " + moneyCollection.getTotalAmount() + "円");
+        System.out.println("返金額: " + moneyCollection.calTotalAmount() + "円");
         List<Money> change = moneyCollection.change();
         for (Money money : change) {
-            if (money.equals(new Money(1000))) System.out.println(money.amount() + "円札 ｳｨｰﾝ");
+            if (money.equals(new Money(ONE_THOUSAND))) System.out.println(money.amount() + "円札 ｳｨｰﾝ");
             else System.out.println(money.amount() + "円玉 ﾁｬﾘﾝ");
         }
         System.out.println("✨ありがとうございました✨");

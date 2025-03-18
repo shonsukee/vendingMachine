@@ -2,6 +2,7 @@ package main;
 
 import inventory.Inventory;
 import inventory.Drink;
+import money.Currency;
 import money.Money;
 import money.MoneyCollection;
 import vendingMachine.VendingMachine;
@@ -33,7 +34,7 @@ public class Main {
 
     /**
      * 入力が有効かを判定する。
-     * 
+     *
      * @param input ユーザーの入力。
      * @param scanner Scanner オブジェクト。
      * @param vm 自動販売機のインスタンス。
@@ -68,10 +69,11 @@ public class Main {
     private static boolean isCorrectMoney(MoneyCollection mc, String input) {
         try {
             int amount = Integer.parseInt(input);
-            Money money = new Money(amount);
+            Currency currency = Currency.fromValue(amount);
+            Money money = new Money(currency);
             mc.addMoney(money);
             System.out.println(amount + "円を入金しました。");
-            System.out.println("総額 " + mc.getTotalAmount() + " 円です。");
+            System.out.println("総額 " + mc.calTotalAmount() + " 円です。");
             return true;
         } catch (NumberFormatException e) {
             System.out.println("無効な入力です。数字を入力してください。");

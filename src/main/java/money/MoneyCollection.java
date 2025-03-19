@@ -18,17 +18,6 @@ public class MoneyCollection {
     }
 
     /**
-     * 貨幣をお金リストに追加する。
-     * @param money `moneyList`へ追加する {@code Money} オブジェクト
-     * @param amountRatio {@code Money} オブジェクトを`moneyList`へ追加する数
-     */
-    void addMoneyList(Money money, int amountRatio) {
-        for (int i = 0; i < amountRatio; i++) {
-            moneyList.add(money);
-        }
-    }
-
-    /**
      * 現在コレクションに含まれているすべての貨幣の合計金額を計算する。
      * @return 現在の合計金額（整数値）
      */

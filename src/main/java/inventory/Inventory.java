@@ -1,6 +1,7 @@
 package inventory;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Inventory {
     private static final int MAX_STOCK = 200;
@@ -13,7 +14,8 @@ public class Inventory {
      * @return 追加が成功した場合は {@code true}、在庫制限を超える場合は {@code false}
      */
     public boolean addInventory(Drink drink, int quantity) {
-        if (getTotalQuantity() + quantity > MAX_STOCK) return false;
+        final int totalQuantity = inventory.values().stream().mapToInt(Integer::intValue).sum();
+        if (totalQuantity + quantity > MAX_STOCK) return false;
         if (quantity <= 0) return false;
         if (inventory.containsKey(drink)) {
             inventory.computeIfPresent(drink, (key, value) -> value + quantity);
@@ -45,27 +47,16 @@ public class Inventory {
     }
 
     /**
-     * 全体の在庫数を取得する。
-     * @return 現在の在庫合計数
-     */
-    private int getTotalQuantity() {
-        int total = 0;
-        for (Map.Entry<Drink, Integer> entry : inventory.entrySet()) {
-            total += entry.getValue();
-        }
-        return total;
-    }
-
-    /**
      * 商品一覧を表示する。
      */
-    public void displayProducts() {
-        int idx = 1;
-        for (Map.Entry<Drink, Integer> entry : inventory.entrySet()) {
-            if(isDeadStock(entry.getKey())) continue;
-            System.out.println("【" + idx + "】" + entry.getKey().name() + ": ¥" + entry.getKey().price());
-            idx++;
-        }
+    public void displayInventory() {
+        AtomicInteger idx = new AtomicInteger(1);
+        inventory.entrySet().stream()
+                .filter(entry -> !isDeadStock(entry.getKey()))  // デッドストックを除外
+                .forEach(entry -> {
+                    System.out.println("【" + idx.getAndIncrement() + "】" +
+                            entry.getKey().name() + ": ¥" + entry.getKey().price());
+                });
     }
 
     /**

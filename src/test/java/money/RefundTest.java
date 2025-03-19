@@ -6,7 +6,7 @@ import static org.hamcrest.MatcherAssert.*;
 import java.util.List;
 import static money.Currency.*;
 
-public class ChangeTest {
+public class RefundTest {
     @Test
     public void testAllReturn() {
         MoneyCollection moneyCollection = new MoneyCollection();
@@ -17,8 +17,8 @@ public class ChangeTest {
         moneyCollection.addMoney(ten);
         moneyCollection.addMoney(one_hundred);
 
-        List<Money> change = moneyCollection.change();
-        assertThat(change.stream().mapToInt(Money::getAmount).sum(), is(130));
-        assertThat(moneyCollection.calTotalAmount(), is(0));
+        List<Money> refund = moneyCollection.refund();
+        assertThat(refund.stream().mapToInt(Money::getAmount).sum(), is(130));
+        assertThat(moneyCollection.calTotalAmount(), is(130));
     }
 }

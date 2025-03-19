@@ -46,8 +46,9 @@ public class MoneyCollectionTest {
     }
 
     @Test
-    public void testCalculateChange(){
+    public void testCalculateRefund(){
         MoneyCollection moneyCollection = new MoneyCollection();
+        MoneyTransaction moneyTransaction = new MoneyTransaction(moneyCollection);
         Money ten = new Money(TEN);
         Money one_hundred = new Money(ONE_HUNDRED);
         Money one_thousand = new Money(ONE_THOUSAND);
@@ -57,10 +58,12 @@ public class MoneyCollectionTest {
         moneyCollection.addMoney(one_thousand);
 
         Drink drink = new Drink("なっちゃんオレンジ", 130);
-        assertThat(moneyCollection.calculateChange(drink), is(true));
+        assertThat(moneyTransaction.isCalculateRefund(drink), is(true));
+        System.out.println("----");
+        System.out.println(moneyCollection.calTotalAmount());
         assertThat(moneyCollection.calTotalAmount(), is(900));
 
-        assertThat(moneyCollection.change(), containsInAnyOrder(
+        assertThat(moneyCollection.refund(), containsInAnyOrder(
                 new Money(FIVE_HUNDRED),
                 new Money(ONE_HUNDRED),
                 new Money(ONE_HUNDRED),
@@ -69,14 +72,15 @@ public class MoneyCollectionTest {
         ));
 
         MoneyCollection moneyCollection2 = new MoneyCollection();
+        MoneyTransaction moneyTransaction2 = new MoneyTransaction(moneyCollection2);
         moneyCollection2.addMoney(ten);
         moneyCollection2.addMoney(one_hundred);
         moneyCollection2.addMoney(one_thousand);
 
-        assertThat(moneyCollection2.calculateChange(drink), is(true));
+        assertThat(moneyTransaction2.isCalculateRefund(drink), is(true));
         assertThat(moneyCollection2.calTotalAmount(), is(980));
 
-        assertThat(moneyCollection2.change(), containsInAnyOrder(
+        assertThat(moneyCollection2.refund(), containsInAnyOrder(
                 new Money(FIVE_HUNDRED),
                 new Money(ONE_HUNDRED),
                 new Money(ONE_HUNDRED),

@@ -1,6 +1,10 @@
 package inventory;
 
 import org.junit.jupiter.api.Test;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.MatcherAssert.*;
 
@@ -11,7 +15,7 @@ public class InventoryTest {
         Drink apple_juice = new Drink("なっちゃんりんご", 120);
 
         assertThat(inventory.addInventory(apple_juice, 10), is(true));
-        assertThat(inventory.getQuantity(apple_juice), is(10));
+        assertThat(inventory.isDeadStock(apple_juice), is(false));
     }
 
     @Test
@@ -21,7 +25,7 @@ public class InventoryTest {
 
         assertThat(inventory.addInventory(apple_juice, 5), is(true));
         assertThat(inventory.addInventory(apple_juice, 10), is(true));
-        assertThat(inventory.getQuantity(apple_juice), is(15));
+        assertThat(inventory.isDeadStock(apple_juice), is(false));
     }
 
     @Test
@@ -31,7 +35,7 @@ public class InventoryTest {
 
         assertThat(inventory.addInventory(apple_juice, 0), is(false));
         assertThat(inventory.addInventory(apple_juice, -10), is(false));
-        assertThat(inventory.getQuantity(apple_juice), is(0));
+        assertThat(inventory.isDeadStock(apple_juice), is(true));
     }
 
     @Test
@@ -41,7 +45,7 @@ public class InventoryTest {
 
         assertThat(inventory.addInventory(apple_juice, 200), is(true));
         assertThat(inventory.addInventory(apple_juice, 1), is(false));
-        assertThat(inventory.getQuantity(apple_juice), is(200));
+        assertThat(inventory.isDeadStock(apple_juice), is(false));
     }
 
     @Test

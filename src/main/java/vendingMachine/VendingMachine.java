@@ -61,7 +61,7 @@ public class VendingMachine {
     public void insertMoney(Money money) {
         moneyCollection.addMoney(money);
         if (money.equals(new Money(ONE_THOUSAND))) System.out.println(money.amount() + "円札を投入しました ｳｨｰﾝ");
-        else System.out.println(money.amount() + "円玉を投入しました ﾁｬﾘﾝ");
+        else System.out.println(money.getAmount() + "円玉を投入しました ﾁｬﾘﾝ");
     }
 
     /**
@@ -77,7 +77,7 @@ public class VendingMachine {
         List<Money> change = moneyCollection.change();
         for (Money money : change) {
             if (money.equals(new Money(ONE_THOUSAND))) System.out.println(money.amount() + "円札 ｳｨｰﾝ");
-            else System.out.println(money.amount() + "円玉 ﾁｬﾘﾝ");
+            else System.out.println(money.getAmount() + "円玉 ﾁｬﾘﾝ");
         }
         System.out.println("✨ありがとうございました✨");
     }

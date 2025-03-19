@@ -41,10 +41,9 @@ public class Main {
      * @return 有効な入力なら true、無効なら false。
      */
     private static boolean isValidInput(String input, Scanner scanner, VendingMachine vm){
-        System.out.print("> ");
         if (input.equalsIgnoreCase("exit")) exit(scanner, vm);
 
-        return !input.equalsIgnoreCase("q");
+        return input.equalsIgnoreCase("q");
     }
 
     /**
@@ -64,9 +63,8 @@ public class Main {
      *
      * @param mc お金の管理オブジェクト。
      * @param input ユーザーの入力。
-     * @return 入金が成功した場合は true、失敗した場合は false。
      */
-    private static boolean isCorrectMoney(MoneyCollection mc, String input) {
+    private static void deposit(MoneyCollection mc, String input) {
         try {
             int amount = Integer.parseInt(input);
             Currency currency = Currency.fromValue(amount);
@@ -74,13 +72,10 @@ public class Main {
             mc.addMoney(money);
             System.out.println(amount + "円を入金しました。");
             System.out.println("総額 " + mc.calTotalAmount() + " 円です。");
-            return true;
         } catch (NumberFormatException e) {
             System.out.println("無効な入力です。数字を入力してください。");
-            return false;
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage() + "入金できませんでした。");
-            return false;
         }
     }
 
@@ -94,9 +89,10 @@ public class Main {
     private static void paymentProcess(Scanner scanner, MoneyCollection mc, VendingMachine vm) {
         while (true) {
             System.out.println("お金を入れてください。");
+            System.out.print("> ");
             String input = scanner.nextLine().trim();
             if (isValidInput(input, scanner, vm)) break;
-            if (isCorrectMoney(mc, input)) break;
+            deposit(mc, input);
         }
     }
 
@@ -116,8 +112,8 @@ public class Main {
             Drink drink = optionalDrink.orElseThrow(() -> new IllegalArgumentException("指定された番号のドリンクが見つかりません。"));
 
             if (vm.purchase(drink)) exit(scanner, vm);
-            else System.out.println("'q' の後に、お金を追加してください。");
 
+            System.out.println("'q' を入力後に、お金を追加してください。");
             return true;
         } catch (NumberFormatException e) {
             System.out.println("無効な入力です。数字を入力してください。");
@@ -138,6 +134,7 @@ public class Main {
     private static void merchandisePurchaseProcess(Scanner scanner, VendingMachine vm, Inventory inv) {
         while (true) {
             System.out.println("商品番号を選択してください。");
+            System.out.print("> ");
             String input = scanner.nextLine().trim();
 
             if (isValidInput(input, scanner, vm)) break;

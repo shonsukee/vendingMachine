@@ -53,10 +53,8 @@ public class Inventory {
         AtomicInteger idx = new AtomicInteger(1);
         inventory.entrySet().stream()
                 .filter(entry -> !isDeadStock(entry.getKey()))  // デッドストックを除外
-                .forEach(entry -> {
-                    System.out.println("【" + idx.getAndIncrement() + "】" +
-                            entry.getKey().name() + ": ¥" + entry.getKey().price());
-                });
+                .forEach(entry -> System.out.println("【" + idx.getAndIncrement() + "】" +
+                        entry.getKey().name() + ": ¥" + entry.getKey().price()));
     }
 
     /**
